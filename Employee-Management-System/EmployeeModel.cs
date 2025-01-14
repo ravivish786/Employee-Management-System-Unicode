@@ -17,6 +17,7 @@ namespace Employee_Management_System
         public int EmployeeID { get; set; }
 
         [Required]
+        [StringLength(100, MinimumLength = 2)]
         public string Name { get; set; }
 
         [Required]

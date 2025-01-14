@@ -22,6 +22,7 @@ namespace Employee_Management_System
             {
                 dataAccess.AddEmployee(GetEmployee());
                 RefreshDataView();
+                RefreshEmployee();
             }
         }
 
@@ -31,12 +32,20 @@ namespace Employee_Management_System
             {
                 dataAccess.UpdateEmployee(GetEmployee());
                 RefreshDataView();
+                RefreshEmployee();
             }
         }
 
         private void DeleteEmployee_Click(object sender, EventArgs e)
         {
-
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (!row.IsNewRow) // Skip new rows
+                {
+                    dataGridView1.Rows.Remove(row);
+                }
+            }
+            RefreshEmployee();
         }
 
 
@@ -72,6 +81,12 @@ namespace Employee_Management_System
 
             };
             return employee;
+        }
+
+        private void RefreshEmployee()
+        {
+            EmployeeID.Text = EmployeeName.Text = EmailID.Text = Designation.Text = Department.Text = PhoneNumber.Text = string.Empty;
+            JoiningDate.Value = DateTime.Now;
         }
 
         private bool IsEmployeevalid()
@@ -154,13 +169,16 @@ namespace Employee_Management_System
 
         private void FilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrder(this.Search.Text, FilterBy.SelectedItem.ToString());
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrder(this.Search.Text, 
+                FilterBy.SelectedItem.ToString());
             RefreshDataView(employees);
         }
 
         private void OrderBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrderWithSort(this.Search.Text, FilterBy.SelectedItem.ToString(), OrderBy.SelectedItem.ToString());
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrderWithSort(this.Search.Text, 
+                FilterBy.SelectedItem.ToString(),
+                OrderBy.SelectedItem.ToString());
             RefreshDataView(employees);
         }
     }

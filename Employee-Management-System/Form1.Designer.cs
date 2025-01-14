@@ -345,13 +345,7 @@
         private Button DeleteEmployee;
         private Button UpdateEmployee;
         private Button AddEmployee;
-        private DataGridViewTextBoxColumn EmpID;
-        private DataGridViewTextBoxColumn EmpName;
-        private DataGridViewTextBoxColumn EmpEmailID;
-        private DataGridViewTextBoxColumn EmpDesignation;
-        private DataGridViewTextBoxColumn EmpDepartment;
-        private DataGridViewTextBoxColumn EmpPhoneNumber;
-        private DataGridViewTextBoxColumn EmpJoiningDate;
+ 
         private ComboBox FilterBy;
         private Label label10;
         private Label label9;

@@ -61,15 +61,13 @@ namespace Employee_Management_System
 
         public List<EmployeeModel> SearchEmployee(string str)
         {
-            //string query = "SELECT * FROM Employee WHERE " + LikesStding(str);
-            //return this.GetEmployees(query);
+ 
             return SearchEmployeeWithOrderWithSort(str, string.Empty);
         }
 
         public List<EmployeeModel> SearchEmployeeWithOrder(string str, string OrderByColumn)
         {
-            //string query = "SELECT * FROM Employee WHERE " + LikesStding(str);
-            //return this.GetEmployees(query);
+ 
             return SearchEmployeeWithOrderWithSort(str, string.Empty);
         }
 

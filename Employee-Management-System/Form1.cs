@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using Employee_Management_System.Helper;
 
 namespace Employee_Management_System
 {
@@ -91,7 +92,7 @@ namespace Employee_Management_System
         {
             EmployeeModel employee = new EmployeeModel()
             {
-                EmployeeID = Convert.ToInt32(EmployeeID.Text),
+                EmployeeID = string.IsNullOrEmpty(EmployeeID.Text) ? 0 : Convert.ToInt32(EmployeeID.Text),
                 Name = EmployeeName.Text,
                 Email = EmailID.Text,
                 Designation = Designation.Text,
@@ -111,46 +112,54 @@ namespace Employee_Management_System
 
         private bool IsEmployeevalid()
         {
+            var employee = GetEmployee();
+            bool IsValid = ClassModelValidator<EmployeeModel>.IsValid(employee);
 
-            if (string.IsNullOrEmpty(EmployeeID.Text))
+
+            if (!IsValid)
             {
-                MessageBox.Show("EmployeeID is required", "Infomation");
-            }else if (string.IsNullOrEmpty(EmployeeName.Text))
-            {
-                MessageBox.Show("Name is required", "Infomation");
+               MessageBox.Show( ClassModelValidator<EmployeeModel>.GetErrorsString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (string.IsNullOrEmpty(Designation.Text))
-            {
-                MessageBox.Show("Designation is required", "Infomation");
-            }
-            else if (string.IsNullOrEmpty(Department.Text))
-            {
-                MessageBox.Show("Department is required", "Infomation");
-            }
-            else if (string.IsNullOrEmpty(PhoneNumber.Text))
-            {
-                MessageBox.Show("PhoneNumber is required", "Infomation");
-            }
-            else if (!Regex.IsMatch(PhoneNumber.Text, @"^\d{8,}$"))
-            {
-                MessageBox.Show("Please enter valid PhoneNumber.", "Infomation");
-            }
-            else if (string.IsNullOrEmpty(JoiningDate.Text))
-            {
-                MessageBox.Show("JoiningDate is required", "Infomation");
-            }
-            else if (string.IsNullOrEmpty(EmailID.Text))
-            {
-                MessageBox.Show("EmailID is required", "Infomation");
-            }
-            else if (!Regex.IsMatch(EmailID.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-            {
-                MessageBox.Show("Please enter valid EmailID.", "Infomation");
-            }
-            else
-            {
-                return true;
-            }
+            return IsValid;
+            //if (string.IsNullOrEmpty(EmployeeID.Text))
+            //{
+            //    MessageBox.Show("EmployeeID is required", "Infomation");
+            //}else if (string.IsNullOrEmpty(EmployeeName.Text))
+            //{
+            //    MessageBox.Show("Name is required", "Infomation");
+            //}
+            //else if (string.IsNullOrEmpty(Designation.Text))
+            //{
+            //    MessageBox.Show("Designation is required", "Infomation");
+            //}
+            //else if (string.IsNullOrEmpty(Department.Text))
+            //{
+            //    MessageBox.Show("Department is required", "Infomation");
+            //}
+            //else if (string.IsNullOrEmpty(PhoneNumber.Text))
+            //{
+            //    MessageBox.Show("PhoneNumber is required", "Infomation");
+            //}
+            //else if (!Regex.IsMatch(PhoneNumber.Text, @"^\d{8,}$"))
+            //{
+            //    MessageBox.Show("Please enter valid PhoneNumber.", "Infomation");
+            //}
+            //else if (string.IsNullOrEmpty(JoiningDate.Text))
+            //{
+            //    MessageBox.Show("JoiningDate is required", "Infomation");
+            //}
+            //else if (string.IsNullOrEmpty(EmailID.Text))
+            //{
+            //    MessageBox.Show("EmailID is required", "Infomation");
+            //}
+            //else if (!Regex.IsMatch(EmailID.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            //{
+            //    MessageBox.Show("Please enter valid EmailID.", "Infomation");
+            //}
+            //else
+            //{
+            //    return true;
+            //}
 
             return false;
         }

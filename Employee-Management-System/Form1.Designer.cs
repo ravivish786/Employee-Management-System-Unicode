@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             EmployeeID = new TextBox();
             label1 = new Label();
             label2 = new Label();
@@ -41,21 +40,20 @@
             Department = new TextBox();
             label6 = new Label();
             PhoneNumber = new TextBox();
-            bindingSource1 = new BindingSource(components);
             label7 = new Label();
             JoiningDate = new DateTimePicker();
-            errorProvider1 = new ErrorProvider(components);
             AddEmployee = new Button();
             UpdateEmployee = new Button();
             DeleteEmployee = new Button();
             dataGridView1 = new DataGridView();
             label8 = new Label();
-            textBox1 = new TextBox();
+            Search = new TextBox();
             label9 = new Label();
             label10 = new Label();
             FilterBy = new ComboBox();
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
+            OrderBy = new ComboBox();
+            label11 = new Label();
+            Refresh = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -172,10 +170,6 @@
             JoiningDate.Size = new Size(237, 27);
             JoiningDate.TabIndex = 14;
             // 
-            // errorProvider1
-            // 
-            errorProvider1.ContainerControl = this;
-            // 
             // AddEmployee
             // 
             AddEmployee.Location = new Point(56, 449);
@@ -216,7 +210,7 @@
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(662, 509);
             dataGridView1.TabIndex = 20;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // label8
             // 
@@ -227,12 +221,13 @@
             label8.TabIndex = 21;
             label8.Text = "Employee DtaView";
             // 
-            // textBox1
+            // Search
             // 
-            textBox1.Location = new Point(664, 89);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
-            textBox1.TabIndex = 22;
+            Search.Location = new Point(664, 89);
+            Search.Name = "Search";
+            Search.Size = new Size(125, 27);
+            Search.TabIndex = 22;
+            Search.TextChanged += Search_TextChanged;
             // 
             // label9
             // 
@@ -248,9 +243,9 @@
             label10.AutoSize = true;
             label10.Location = new Point(815, 92);
             label10.Name = "label10";
-            label10.Size = new Size(62, 20);
+            label10.Size = new Size(59, 20);
             label10.TabIndex = 24;
-            label10.Text = "Filter By";
+            label10.Text = "Shot By";
             // 
             // FilterBy
             // 
@@ -260,16 +255,50 @@
             FilterBy.Name = "FilterBy";
             FilterBy.Size = new Size(151, 28);
             FilterBy.TabIndex = 25;
+            FilterBy.SelectedIndexChanged += FilterBy_SelectedIndexChanged;
+            // 
+            // OrderBy
+            // 
+            OrderBy.FormattingEnabled = true;
+            OrderBy.Items.AddRange(new object[] { "Asc", "Desc" });
+            OrderBy.Location = new Point(893, 123);
+            OrderBy.Name = "OrderBy";
+            OrderBy.Size = new Size(151, 28);
+            OrderBy.TabIndex = 27;
+            OrderBy.SelectedIndexChanged += OrderBy_SelectedIndexChanged;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(815, 126);
+            label11.Name = "label11";
+            label11.Size = new Size(67, 20);
+            label11.TabIndex = 26;
+            label11.Text = "Order By";
+            // 
+            // Refresh
+            // 
+            Refresh.Cursor = Cursors.SizeWE;
+            Refresh.Location = new Point(1083, 89);
+            Refresh.Name = "Refresh";
+            Refresh.Size = new Size(144, 29);
+            Refresh.TabIndex = 28;
+            Refresh.Text = "Refresh Grid";
+            Refresh.UseVisualStyleBackColor = true;
+            Refresh.Click += Refresh_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1279, 678);
+            Controls.Add(Refresh);
+            Controls.Add(OrderBy);
+            Controls.Add(label11);
             Controls.Add(FilterBy);
             Controls.Add(label10);
             Controls.Add(label9);
-            Controls.Add(textBox1);
+            Controls.Add(Search);
             Controls.Add(label8);
             Controls.Add(dataGridView1);
             Controls.Add(DeleteEmployee);
@@ -292,8 +321,6 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load_1;
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -313,10 +340,8 @@
         private TextBox Department;
         private Label label6;
         private TextBox PhoneNumber;
-        private BindingSource bindingSource1;
         private Label label7;
         private DateTimePicker JoiningDate;
-        private ErrorProvider errorProvider1;
         private Label label8;
         private DataGridView dataGridView1;
         private Button DeleteEmployee;
@@ -332,6 +357,9 @@
         private ComboBox FilterBy;
         private Label label10;
         private Label label9;
-        private TextBox textBox1;
+        private TextBox Search;
+        private ComboBox OrderBy;
+        private Label label11;
+        private Button Refresh;
     }
 }

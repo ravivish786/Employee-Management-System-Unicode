@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,13 +12,26 @@ namespace Employee_Management_System
     {
         public string connectionString = "Data Source=LAPTOP-I1TDCOQU\\SQLEXPRESS;Initial Catalog=Employee-Mangement;Integrated Security=True";
 
-        public List<EmployeeModel> GetEmployees()
+        public IList<string> Fileds
+        {
+            get
+            {
+                return new EmployeeModel().GetType().GetProperties().Select(p => p.Name).ToList();
+            }
+        }
+
+        public string LikesStding(string qurey)
+        {
+            return string.Join(" OR ", Fileds.Select(f => f + " LIKE '%" + qurey+ "%'"));
+        }
+
+        private List<EmployeeModel> GetEmployees(string query)
         {
             List<EmployeeModel> employees = new List<EmployeeModel>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM Employee";
+                
                 SqlCommand command = new SqlCommand(query, connection);
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -34,8 +48,43 @@ namespace Employee_Management_System
                 }
             }
             return employees;
-        }   
+        }
 
+
+
+
+        public List<EmployeeModel> GetEmployees()
+        {
+            string query = "SELECT * FROM Employee";
+            return this.GetEmployees(query);
+        }
+
+        public List<EmployeeModel> SearchEmployee(string str)
+        {
+            //string query = "SELECT * FROM Employee WHERE " + LikesStding(str);
+            //return this.GetEmployees(query);
+            return SearchEmployeeWithOrderWithSort(str, string.Empty);
+        }
+
+        public List<EmployeeModel> SearchEmployeeWithOrder(string str, string OrderByColumn)
+        {
+            //string query = "SELECT * FROM Employee WHERE " + LikesStding(str);
+            //return this.GetEmployees(query);
+            return SearchEmployeeWithOrderWithSort(str, string.Empty);
+        }
+
+        public List<EmployeeModel> SearchEmployeeWithOrderWithSort(string str, string OrderByColumn, string ShortBy = "ASC")
+        {
+            string query = "SELECT * FROM Employee WHERE " + LikesStding(str);
+
+
+            if (!string.IsNullOrEmpty(OrderByColumn))
+            {
+                query += " ORDER BY " + OrderByColumn + " " + ShortBy;
+            }
+
+            return this.GetEmployees(query);
+        }
 
         public void AddEmployee(EmployeeModel employee)
         {

@@ -47,17 +47,16 @@ namespace Employee_Management_System
             dataGridView1.DataSource = employees;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void RefreshDataView()
         {
             List<EmployeeModel> employees = dataAccess.GetEmployees();
-            dataGridView1.DataSource = employees;
+            RefreshDataView(employees);
         }
 
+        private void RefreshDataView(List<EmployeeModel> employeeModels)
+        {
+            dataGridView1.DataSource = employeeModels;
+        }
 
         private EmployeeModel GetEmployee()
         {
@@ -122,13 +121,48 @@ namespace Employee_Management_System
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
-            List<EmployeeModel> employees = dataAccess.GetEmployees();
-            dataGridView1.DataSource = employees;
+            RefreshDataView();
         }
 
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow dataGridView = this.dataGridView1.Rows[e.RowIndex];
+                EmployeeID.Text = dataGridView.Cells[0].Value.ToString();
+                EmployeeName.Text = dataGridView.Cells[1].Value.ToString();
+                Designation.Text = dataGridView.Cells[2].Value.ToString();
+                Department.Text = dataGridView.Cells[3].Value.ToString();
+                EmailID.Text = dataGridView.Cells[4].Value.ToString();
+                PhoneNumber.Text = dataGridView.Cells[5].Value.ToString();
+                JoiningDate.Text = dataGridView.Cells[6].Value.ToString();
+
+            }
+        }
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            RefreshDataView();
+        }
+
+        private void Search_TextChanged(object sender, EventArgs e)
         {
 
+            List<EmployeeModel> employees = dataAccess.SearchEmployee(this.Search.Text);
+            RefreshDataView(employees);
+        }
+
+        private void FilterBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrder(this.Search.Text, FilterBy.SelectedItem.ToString());
+            RefreshDataView(employees);
+        }
+
+        private void OrderBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrderWithSort(this.Search.Text, FilterBy.SelectedItem.ToString(), OrderBy.SelectedItem.ToString());
+            RefreshDataView(employees);
         }
     }
 }
+ 

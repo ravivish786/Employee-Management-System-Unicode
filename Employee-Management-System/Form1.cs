@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
@@ -6,7 +8,7 @@ namespace Employee_Management_System
     public partial class Form1 : Form
     {
         DataAccess dataAccess = new DataAccess();
-
+        BindingList<EmployeeModel> employees = new BindingList<EmployeeModel>();    
         public Form1()
         {
             InitializeComponent();
@@ -42,12 +44,18 @@ namespace Employee_Management_System
         private void DeleteEmployee_Click(object sender, EventArgs e)
         {
             IList<int> ids = new List<int>();
+
+            // Delete selected rows
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                int id = Convert.ToInt32(row.Cells[0].Value);
-                ids.Add(id);
-                dataGridView1.Rows.Remove(row);
+                EmployeeModel employee = row.DataBoundItem as EmployeeModel;
+                if (employee != null)
+                {
+                    ids.Add(employee.EmployeeID);
+                    employees.Remove(employee); // Remove from the BindingList
+                }
             }
+
             if (ids.Count > 0)
             {
                 dataAccess.DeleteEmployee(ids);
@@ -74,7 +82,9 @@ namespace Employee_Management_System
 
         private void RefreshDataView(List<EmployeeModel> employeeModels)
         {
-            dataGridView1.DataSource = employeeModels;
+            employees = new BindingList<EmployeeModel>(employeeModels);
+            //dataGridView1.DataSource = employeeModels;
+            dataGridView1.DataSource = employees;
         }
 
         private EmployeeModel GetEmployee()

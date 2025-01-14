@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
 namespace Employee_Management_System
@@ -23,6 +24,7 @@ namespace Employee_Management_System
                 dataAccess.AddEmployee(GetEmployee());
                 RefreshDataView();
                 RefreshEmployee();
+                MessageBox.Show("Employee Added Successfully", "Infomation");
             }
         }
 
@@ -33,19 +35,27 @@ namespace Employee_Management_System
                 dataAccess.UpdateEmployee(GetEmployee());
                 RefreshDataView();
                 RefreshEmployee();
+                MessageBox.Show("Employee Updated Successfully", "Infomation");
             }
         }
 
         private void DeleteEmployee_Click(object sender, EventArgs e)
         {
+            IList<int> ids = new List<int>();
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                if (!row.IsNewRow) // Skip new rows
-                {
-                    dataGridView1.Rows.Remove(row);
-                }
+                int id = Convert.ToInt32(row.Cells[0].Value);
+                ids.Add(id);
+                dataGridView1.Rows.Remove(row);
             }
+            if (ids.Count > 0)
+            {
+                dataAccess.DeleteEmployee(ids);
+                MessageBox.Show("Employee Deleted Successfully", "Infomation");
+            }
+
             RefreshEmployee();
+
         }
 
 
@@ -92,39 +102,40 @@ namespace Employee_Management_System
         private bool IsEmployeevalid()
         {
 
-
-            if (string.IsNullOrEmpty(EmployeeName.Text))
+            if (string.IsNullOrEmpty(EmployeeID.Text))
             {
-                MessageBox.Show("Name is required");
+                MessageBox.Show("EmployeeID is required", "Infomation");
+            }else if (string.IsNullOrEmpty(EmployeeName.Text))
+            {
+                MessageBox.Show("Name is required", "Infomation");
             }
             else if (string.IsNullOrEmpty(Designation.Text))
             {
-                MessageBox.Show("Designation is required");
+                MessageBox.Show("Designation is required", "Infomation");
             }
             else if (string.IsNullOrEmpty(Department.Text))
             {
-                MessageBox.Show("Department is required");
+                MessageBox.Show("Department is required", "Infomation");
             }
             else if (string.IsNullOrEmpty(PhoneNumber.Text))
             {
-                MessageBox.Show("PhoneNumber is required");
+                MessageBox.Show("PhoneNumber is required", "Infomation");
             }
             else if (!Regex.IsMatch(PhoneNumber.Text, @"^\d{8,}$"))
             {
-                MessageBox.Show("Please enter valid PhoneNumber.");
+                MessageBox.Show("Please enter valid PhoneNumber.", "Infomation");
             }
             else if (string.IsNullOrEmpty(JoiningDate.Text))
             {
-                MessageBox.Show("JoiningDate is required");
+                MessageBox.Show("JoiningDate is required", "Infomation");
             }
-            else
-            if (string.IsNullOrEmpty(EmailID.Text))
+            else if (string.IsNullOrEmpty(EmailID.Text))
             {
-                MessageBox.Show("EmailID is required");
+                MessageBox.Show("EmailID is required", "Infomation");
             }
             else if (!Regex.IsMatch(EmailID.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
-                MessageBox.Show("Please enter valid EmailID.");
+                MessageBox.Show("Please enter valid EmailID.", "Infomation");
             }
             else
             {
@@ -138,23 +149,7 @@ namespace Employee_Management_System
         {
             RefreshDataView();
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow dataGridView = this.dataGridView1.Rows[e.RowIndex];
-                EmployeeID.Text = dataGridView.Cells[0].Value.ToString();
-                EmployeeName.Text = dataGridView.Cells[1].Value.ToString();
-                Designation.Text = dataGridView.Cells[2].Value.ToString();
-                Department.Text = dataGridView.Cells[3].Value.ToString();
-                EmailID.Text = dataGridView.Cells[4].Value.ToString();
-                PhoneNumber.Text = dataGridView.Cells[5].Value.ToString();
-                JoiningDate.Text = dataGridView.Cells[6].Value.ToString();
-
-            }
-        }
-
+         
         private void Refresh_Click(object sender, EventArgs e)
         {
             RefreshDataView();
@@ -169,17 +164,33 @@ namespace Employee_Management_System
 
         private void FilterBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrder(this.Search.Text, 
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrder(this.Search.Text,
                 FilterBy.SelectedItem.ToString());
             RefreshDataView(employees);
         }
 
         private void OrderBy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrderWithSort(this.Search.Text, 
+            List<EmployeeModel> employees = dataAccess.SearchEmployeeWithOrderWithSort(this.Search.Text,
                 FilterBy.SelectedItem.ToString(),
                 OrderBy.SelectedItem.ToString());
             RefreshDataView(employees);
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow dataGridView = this.dataGridView1.Rows[e.RowIndex];
+                EmployeeID.Text = dataGridView.Cells[0].Value.ToString();
+                EmployeeName.Text = dataGridView.Cells[1].Value.ToString();
+                Designation.Text = dataGridView.Cells[2].Value.ToString();
+                Department.Text = dataGridView.Cells[3].Value.ToString();
+                EmailID.Text = dataGridView.Cells[4].Value.ToString();
+                PhoneNumber.Text = dataGridView.Cells[5].Value.ToString();
+                JoiningDate.Text = dataGridView.Cells[6].Value.ToString();
+
+            }
         }
     }
 }

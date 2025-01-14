@@ -134,5 +134,17 @@ namespace Employee_Management_System
                 command.ExecuteNonQuery();
             }
         }
+
+
+        public void DeleteEmployee(IList<int> employeeIDs)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM Employee WHERE EmployeeID IN (" + string.Join(",", employeeIDs) + ")";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

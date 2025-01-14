@@ -45,7 +45,6 @@
             AddEmployee = new Button();
             UpdateEmployee = new Button();
             DeleteEmployee = new Button();
-            dataGridView1 = new DataGridView();
             label8 = new Label();
             Search = new TextBox();
             label9 = new Label();
@@ -54,6 +53,7 @@
             OrderBy = new ComboBox();
             label11 = new Label();
             Refresh = new Button();
+            dataGridView1 = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -200,18 +200,6 @@
             DeleteEmployee.UseVisualStyleBackColor = true;
             DeleteEmployee.Click += DeleteEmployee_Click;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToOrderColumns = true;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(605, 157);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(662, 509);
-            dataGridView1.TabIndex = 20;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -287,11 +275,23 @@
             Refresh.UseVisualStyleBackColor = true;
             Refresh.Click += Refresh_Click;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(605, 165);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(649, 461);
+            dataGridView1.TabIndex = 29;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1279, 678);
+            Controls.Add(dataGridView1);
             Controls.Add(Refresh);
             Controls.Add(OrderBy);
             Controls.Add(label11);
@@ -300,7 +300,6 @@
             Controls.Add(label9);
             Controls.Add(Search);
             Controls.Add(label8);
-            Controls.Add(dataGridView1);
             Controls.Add(DeleteEmployee);
             Controls.Add(UpdateEmployee);
             Controls.Add(AddEmployee);
@@ -319,7 +318,7 @@
             Controls.Add(label1);
             Controls.Add(EmployeeID);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Employee Management System";
             Load += Form1_Load_1;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
@@ -343,7 +342,6 @@
         private Label label7;
         private DateTimePicker JoiningDate;
         private Label label8;
-        private DataGridView dataGridView1;
         private Button DeleteEmployee;
         private Button UpdateEmployee;
         private Button AddEmployee;
@@ -361,5 +359,6 @@
         private ComboBox OrderBy;
         private Label label11;
         private Button Refresh;
+        private DataGridView dataGridView1;
     }
 }
